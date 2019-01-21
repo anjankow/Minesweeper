@@ -22,8 +22,10 @@ namespace Sapper
         public const short Minefield = -1;
         public const short EmptyField = 0;
 
-        public int TotalNumberOfMines { get; set; }
-        public int RemainingMines { get; set; }
+        public int TotalNumberOfMines { get; private set; }
+        public int RemainingMines { get; private set; }
+        public int RemainingFieldsToReveal { get; private set; }
+        public bool DidUserWin { get; private set; }
 
         public SapperInstance(int height = 20, int length = 10, int numberOfMines = 15)
         {
@@ -31,6 +33,8 @@ namespace Sapper
             X_maxIndex = height - 1;
             TotalNumberOfMines = numberOfMines;
             RemainingMines = numberOfMines;
+            RemainingFieldsToReveal = height * length - numberOfMines;
+            DidUserWin = false;
         }
 
         public void GenerateNewGrid()
@@ -68,27 +72,47 @@ namespace Sapper
             }
         }
 
-        public void RevealSquare(int x, int y)
+        /// <summary>
+        /// Reveals choosen field. In case of mine reveals all fields,
+        /// in case of empty square reveals surrounding empty fields
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        /// <returns>Returns true in case of end of the game and sets the DidUserWin flag indicating the result</returns>
+        public bool RevealSquare(int x, int y)
         {
             if (Grid[x, y].IsVisible || Grid[x, y].IsMarked)
             {
-                return;
+                return false;
             }
-            Grid[x, y].IsVisible = true;
-            if (Grid[x, y].Value == Minefield)
+            switch(Grid[x,y].Value)
             {
-                for (int i = 0; i <= X_maxIndex; i++)
-                {
-                    for (int j = 0; j < Y_maxIndex; j++)
+                case Minefield:
+                    for (int i = 0; i <= X_maxIndex; i++)
                     {
-                        Grid[i, j].IsVisible = true;
+                        for (int j = 0; j < Y_maxIndex; j++)
+                        {
+                            Grid[i, j].IsVisible = true;
+                        }
                     }
-                }
-                //GAME OVER!!!
+                    DidUserWin = false;
+                    return true;
+                case EmptyField:
+                    RevealEmptyFields(x, y);
+                    break;
+                default:
+                    Grid[x, y].IsVisible = true;
+                    RemainingFieldsToReveal--;
+                    break;
             }
-            if (Grid[x, y].Value == EmptyField)
+            if(RemainingMines==0)
             {
-                RevealEmptyFields(x, y);
+                DidUserWin = true;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -115,6 +139,7 @@ namespace Sapper
             if (IsPointInGrid(x, y) && Grid[x, y].IsVisible == false)
             {
                 Grid[x, y].IsVisible = true;
+                RemainingFieldsToReveal--;
                 if (Grid[x, y].Value == EmptyField)
                 {
                     RevealEmptyFields(x - 1, y);
