@@ -13,6 +13,7 @@ namespace Sapper
         {
             public short Value { get; set; }
             public bool IsVisible { get; set; }
+            public bool IsMarked { get; set; }
         }
         public int Y_maxIndex;
         public int X_maxIndex;
@@ -24,10 +25,12 @@ namespace Sapper
         public int TotalNumberOfMines { get; set; }
         public int RemainingMines { get; set; }
 
-        public SapperInstance(int height = 20, int length = 10)
+        public SapperInstance(int height = 20, int length = 10, int numberOfMines = 15)
         {
             Y_maxIndex = length - 1;
             X_maxIndex = height - 1;
+            TotalNumberOfMines = numberOfMines;
+            RemainingMines = numberOfMines;
         }
 
         public void GenerateNewGrid()
@@ -65,9 +68,9 @@ namespace Sapper
             }
         }
 
-        public void SquareSelected(int x, int y)
+        public void RevealSquare(int x, int y)
         {
-            if (Grid[x, y].IsVisible)
+            if (Grid[x, y].IsVisible || Grid[x, y].IsMarked)
             {
                 return;
             }
@@ -86,6 +89,24 @@ namespace Sapper
             if (Grid[x, y].Value == EmptyField)
             {
                 RevealEmptyFields(x, y);
+            }
+        }
+
+        public void MarkFieldAsMine(int x, int y)
+        {
+            if(!Grid[x,y].IsVisible)
+            {
+                Grid[x, y].IsMarked = true;
+                RemainingMines--;
+            }
+        }
+
+        public void UnmarkField(int x, int y)
+        {
+            if (Grid[x, y].IsMarked)
+            {
+                Grid[x, y].IsMarked = false;
+                RemainingMines++;
             }
         }
 

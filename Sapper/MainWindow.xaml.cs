@@ -25,7 +25,7 @@ namespace Sapper
             InitializeComponent();
             var a = new SapperInstance();
             a.GenerateNewGrid();
-            a.SquareSelected(5, 5);
+            a.RevealSquare(5, 5);
         }
     }
 }
