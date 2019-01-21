@@ -5,14 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sapper"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
+        Title="Minesweeper" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style TargetType="Button" x:Key="BoardField">
+        <RowDefinition x:Key="BoardRowDef" Height="Auto"/>
+        <ColumnDefinition x:Key="BoardColumnDef" Width="Auto"/>
+        <Style TargetType="Button" x:Key="UnrevealedField">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Width" Value="30"/>
             <Setter Property="Background" Value="Azure"/>
             <Setter Property="BorderBrush" Value="DarkBlue"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <EventSetter Event="Click" Handler="Unrevealed_Click"/>
+            <EventSetter Event="MouseRightButtonUp" Handler="Unrevealed_RightClick"/>
         </Style>
         <Style TargetType="Label" x:Key="StatusLabel">
             <Setter Property="FontSize" Value="19"/>
@@ -23,18 +27,13 @@
         <Menu ClipToBounds="True" VerticalAlignment="Top">
             <MenuItem Header="New game" Width="78" Height="26"/>
         </Menu>
-        <StackPanel Margin="0,40,0,0">
+        <StackPanel Margin="20,40,20,20">
             <DockPanel HorizontalAlignment="Center">
                 <Label Content="Remaining mines: " Style="{DynamicResource StatusLabel}" DockPanel.Dock="Left" VerticalAlignment="Top" />
                 <Separator Width="40"/>
                 <Label Name="lblRemainingMines" Content="100"  Style="{DynamicResource StatusLabel}" DockPanel.Dock="Right" VerticalAlignment="Top"/>
             </DockPanel>
-            <Grid Name="Board" Height="Auto" Width="Auto" >
-                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="400,247,0,0" VerticalAlignment="Top"/>
-                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,277,0,0" VerticalAlignment="Top"/>
-                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="69,247,0,0" VerticalAlignment="Top"/>
-                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="129,247,0,0" VerticalAlignment="Top"/>
-            </Grid>
+            <Grid Name="Board" Height="Auto" Width="Auto" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>
