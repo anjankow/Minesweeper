@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sapper"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="MainWindow" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
     <Window.Resources>
         <Style TargetType="Button" x:Key="BoardField">
             <Setter Property="Height" Value="30"/>
@@ -14,13 +14,27 @@
             <Setter Property="BorderBrush" Value="DarkBlue"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
+        <Style TargetType="Label" x:Key="StatusLabel">
+            <Setter Property="FontSize" Value="19"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
     </Window.Resources>
-    <Grid Height="Auto" Width="Auto" MinHeight="300" MinWidth="300" Background="Aquamarine">
-        <Grid Name="Board" Height="400" Width="200">
-            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,247,0,0" VerticalAlignment="Top"/>
-            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,277,0,0" VerticalAlignment="Top"/>
-            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="69,247,0,0" VerticalAlignment="Top"/>
-            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="129,247,0,0" VerticalAlignment="Top"/>
-        </Grid>
+    <Grid Name="MainGrid" Height="Auto" Width="Auto" Background="PowderBlue">
+        <Menu ClipToBounds="True" VerticalAlignment="Top">
+            <MenuItem Header="New game" Width="78" Height="26"/>
+        </Menu>
+        <StackPanel Margin="0,40,0,0">
+            <DockPanel HorizontalAlignment="Center">
+                <Label Content="Remaining mines: " Style="{DynamicResource StatusLabel}" DockPanel.Dock="Left" VerticalAlignment="Top" />
+                <Separator Width="40"/>
+                <Label Name="lblRemainingMines" Content="100"  Style="{DynamicResource StatusLabel}" DockPanel.Dock="Right" VerticalAlignment="Top"/>
+            </DockPanel>
+            <Grid Name="Board" Height="Auto" Width="Auto" >
+                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="400,247,0,0" VerticalAlignment="Top"/>
+                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,277,0,0" VerticalAlignment="Top"/>
+                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="69,247,0,0" VerticalAlignment="Top"/>
+                <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="129,247,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
