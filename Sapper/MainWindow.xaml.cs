@@ -28,6 +28,8 @@ namespace Sapper
         public int GridHeight { get; set; }
         public int GridLength { get; set; }
 
+        public SapperInstance Game { get; set; }
+
         public struct SquarePosition
         {
             public int X;
@@ -42,9 +44,8 @@ namespace Sapper
         public MainWindow()
         {
             InitializeComponent();
-            var a = new SapperInstance();
-            a.RevealSquare(5, 5);
             InitializeVariables();
+            Game = new SapperInstance(GridHeight, GridLength);
             DrawBoard();
         }
 
@@ -77,11 +78,42 @@ namespace Sapper
 
         private void Unrevealed_Click(object sender, RoutedEventArgs e)
         {
+            Button square = sender as Button;
+            var position = (SquarePosition)square.Tag;
+            bool isGameOver = Game.RevealSquare(position.X, position.Y);
+            if (!(isGameOver && Game.DidUserWin))
+            {
+                UpdateBoard();
+            }
+        }
 
+        private void UpdateBoard()
+        {
+            foreach (Button square in Board.Children)
+            {
+                var position = (SquarePosition)square.Tag;
+                if (Game.Board[position.X, position.Y].IsVisible == true)
+                {
+                    switch (Game.Board[position.X, position.Y].Value)
+                    {
+                        case SapperInstance.Minefield:
+                            square.Style = Resources["MineField"] as Style;
+                            break;
+                        case SapperInstance.EmptyField:
+                            square.Style = Resources["EmptyField"] as Style;
+                            break;
+                        default:
+                            square.Style = Resources["EmptyField"] as Style;
+                            square.Content = Game.Board[position.X, position.Y].Value;
+                            break;
+                    }
+                }
+            }
         }
 
         private void Unrevealed_RightClick(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("prawy");
 
         }
     }

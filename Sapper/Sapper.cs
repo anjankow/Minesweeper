@@ -17,7 +17,7 @@ namespace Sapper
         }
         private int Y_maxIndex;
         private int X_maxIndex;
-        public Field[,] Grid { get; private set; }
+        public Field[,] Board { get; private set; }
 
         public const short Minefield = -1;
         public const short EmptyField = 0;
@@ -40,14 +40,14 @@ namespace Sapper
 
         private void GenerateNewGrid()
         {
-            Grid = new Field[X_maxIndex + 1, Y_maxIndex + 1];
+            Board = new Field[X_maxIndex + 1, Y_maxIndex + 1];
             Random r = new Random();
             int currentMineNumber = 0;
             while (currentMineNumber < TotalNumberOfMines)
             {
                 int x = r.Next(X_maxIndex + 1);
                 int y = r.Next(Y_maxIndex + 1);
-                if (Grid[x, y].Value != Minefield)
+                if (Board[x, y].Value != Minefield)
                 {
                     for (int i = x - 1; i <= x + 1; i++)
                     {
@@ -55,11 +55,11 @@ namespace Sapper
                         {
                             if (IsPointInGrid(i, j))
                             {
-                                Grid[i, j].Value++;
+                                Board[i, j].Value++;
                             }
                         }
                     }
-                    Grid[x, y].Value = Minefield;
+                    Board[x, y].Value = Minefield;
                     currentMineNumber++;
                 }
             }
@@ -67,7 +67,7 @@ namespace Sapper
             {
                 for (int j = 0; j <= Y_maxIndex; j++)
                 {
-                    Debug.Write(Grid[i, j] + " ");
+                    Debug.Write(Board[i, j] + " ");
                 }
                 Debug.Write("\n");
             }
@@ -82,18 +82,18 @@ namespace Sapper
         /// <returns>Returns true in case of end of the game and sets the DidUserWin flag indicating the result</returns>
         public bool RevealSquare(int x, int y)
         {
-            if (Grid[x, y].IsVisible || Grid[x, y].IsMarked)
+            if (Board[x, y].IsVisible || Board[x, y].IsMarked)
             {
                 return false;
             }
-            switch(Grid[x,y].Value)
+            switch(Board[x,y].Value)
             {
                 case Minefield:
                     for (int i = 0; i <= X_maxIndex; i++)
                     {
                         for (int j = 0; j < Y_maxIndex; j++)
                         {
-                            Grid[i, j].IsVisible = true;
+                            Board[i, j].IsVisible = true;
                         }
                     }
                     DidUserWin = false;
@@ -102,7 +102,7 @@ namespace Sapper
                     RevealEmptyFields(x, y);
                     break;
                 default:
-                    Grid[x, y].IsVisible = true;
+                    Board[x, y].IsVisible = true;
                     RemainingFieldsToReveal--;
                     break;
             }
@@ -119,29 +119,29 @@ namespace Sapper
 
         public void MarkFieldAsMine(int x, int y)
         {
-            if(!Grid[x,y].IsVisible)
+            if(!Board[x,y].IsVisible)
             {
-                Grid[x, y].IsMarked = true;
+                Board[x, y].IsMarked = true;
                 RemainingMines--;
             }
         }
 
         public void UnmarkField(int x, int y)
         {
-            if (Grid[x, y].IsMarked)
+            if (Board[x, y].IsMarked)
             {
-                Grid[x, y].IsMarked = false;
+                Board[x, y].IsMarked = false;
                 RemainingMines++;
             }
         }
 
         private void RevealEmptyFields(int x, int y)
         {
-            if (IsPointInGrid(x, y) && Grid[x, y].IsVisible == false)
+            if (IsPointInGrid(x, y) && Board[x, y].IsVisible == false)
             {
-                Grid[x, y].IsVisible = true;
+                Board[x, y].IsVisible = true;
                 RemainingFieldsToReveal--;
-                if (Grid[x, y].Value == EmptyField)
+                if (Board[x, y].Value == EmptyField)
                 {
                     RevealEmptyFields(x - 1, y);
                     RevealEmptyFields(x + 1, y);

@@ -18,6 +18,12 @@
             <EventSetter Event="Click" Handler="Unrevealed_Click"/>
             <EventSetter Event="MouseRightButtonUp" Handler="Unrevealed_RightClick"/>
         </Style>
+        <Style TargetType="Button" x:Key="EmptyField">
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
+        <Style TargetType="Button" x:Key="MineField">
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
         <Style TargetType="Label" x:Key="StatusLabel">
             <Setter Property="FontSize" Value="19"/>
             <Setter Property="Foreground" Value="Black"/>
