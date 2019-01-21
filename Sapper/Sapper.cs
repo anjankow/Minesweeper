@@ -15,9 +15,9 @@ namespace Sapper
             public bool IsVisible { get; set; }
             public bool IsMarked { get; set; }
         }
-        public int Y_maxIndex;
-        public int X_maxIndex;
-        public Field[,] Grid;
+        private int Y_maxIndex;
+        private int X_maxIndex;
+        public Field[,] Grid { get; private set; }
 
         public const short Minefield = -1;
         public const short EmptyField = 0;
@@ -35,9 +35,10 @@ namespace Sapper
             RemainingMines = numberOfMines;
             RemainingFieldsToReveal = height * length - numberOfMines;
             DidUserWin = false;
+            GenerateNewGrid();
         }
 
-        public void GenerateNewGrid()
+        private void GenerateNewGrid()
         {
             Grid = new Field[X_maxIndex + 1, Y_maxIndex + 1];
             Random r = new Random();
@@ -134,7 +135,7 @@ namespace Sapper
             }
         }
 
-        public void RevealEmptyFields(int x, int y)
+        private void RevealEmptyFields(int x, int y)
         {
             if (IsPointInGrid(x, y) && Grid[x, y].IsVisible == false)
             {
