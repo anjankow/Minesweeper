@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sapper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="BoardField">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Window.Resources>
+    <Grid Height="Auto" Width="Auto" MinHeight="300" MinWidth="300" Background="Aquamarine">
+        <Grid Name="Board" Height="400" Width="200">
+            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,247,0,0" VerticalAlignment="Top"/>
+            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="99,277,0,0" VerticalAlignment="Top"/>
+            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="69,247,0,0" VerticalAlignment="Top"/>
+            <Button HorizontalAlignment="Left" Style="{DynamicResource BoardField}" Margin="129,247,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Window>

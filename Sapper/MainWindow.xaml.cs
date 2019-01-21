@@ -20,9 +20,18 @@ namespace Sapper
     /// </summary>
     public partial class MainWindow : Window
     {
+        public const int MaxGridHeight = 20;
+        public const int MinGridHeight = 10;
+        public const int MaxGridLength = 20;
+        public const int MinGridLength = 10;
+
+        public int GridHeight { get; set; }
+        public int GridLength { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            SizeToContent = SizeToContent.WidthAndHeight;
             var a = new SapperInstance();
             a.RevealSquare(5, 5);
         }
