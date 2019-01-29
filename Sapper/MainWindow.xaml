@@ -9,20 +9,29 @@
     <Window.Resources>
         <RowDefinition x:Key="BoardRowDef" Height="Auto"/>
         <ColumnDefinition x:Key="BoardColumnDef" Width="Auto"/>
-        <Style TargetType="Button" x:Key="UnrevealedField">
+        <Style TargetType="Button" x:Key="Field">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Width" Value="30"/>
-            <Setter Property="Background" Value="Azure"/>
-            <Setter Property="BorderBrush" Value="DarkBlue"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="DarkBlue"/>
+        </Style>
+        <Style TargetType="Button" x:Key="UnrevealedField" BasedOn="{StaticResource Field}">
+            <Setter Property="Background" Value="Azure"/>
             <EventSetter Event="Click" Handler="Unrevealed_Click"/>
             <EventSetter Event="MouseRightButtonUp" Handler="Unrevealed_RightClick"/>
         </Style>
-        <Style TargetType="Button" x:Key="EmptyField">
-            <Setter Property="Background" Value="Beige"/>
+        <Style TargetType="Button" x:Key="MarkedField" BasedOn="{StaticResource Field}">
+            <Setter Property="Background" Value="Firebrick"/>
+            <EventSetter Event="Click" Handler="Marked_Click"/>
+            <EventSetter Event="MouseRightButtonUp" Handler="Marked_RightClick"/>
         </Style>
-        <Style TargetType="Button" x:Key="MineField">
+        <Style TargetType="Button" x:Key="EmptyField" BasedOn="{StaticResource Field}">
             <Setter Property="Background" Value="Beige"/>
+            <Setter Property="IsEnabled" Value="False"/>
+        </Style>
+        <Style TargetType="Button" x:Key="MineField" BasedOn="{StaticResource Field}">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="IsEnabled" Value="False"/>
         </Style>
         <Style TargetType="Label" x:Key="StatusLabel">
             <Setter Property="FontSize" Value="19"/>
@@ -39,7 +48,12 @@
                 <Separator Width="40"/>
                 <Label Name="lblRemainingMines" Content="100"  Style="{DynamicResource StatusLabel}" DockPanel.Dock="Right" VerticalAlignment="Top"/>
             </DockPanel>
-            <Grid Name="Board" Height="Auto" Width="Auto" HorizontalAlignment="Center"/>
+            <Grid Name="Board" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                <Button Margin="30,30,0,0" Style="{StaticResource MineField}"/>
+                <Button Margin="150,30,0,0" Style="{StaticResource EmptyField}"/>
+                <Button Margin="90,30,0,0" Style="{StaticResource UnrevealedField}"/>
+                <Button Margin="-30,30,0,0" Style="{StaticResource MarkedField}"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

@@ -35,10 +35,10 @@ namespace Sapper
             RemainingMines = numberOfMines;
             RemainingFieldsToReveal = height * length - numberOfMines;
             DidUserWin = false;
-            GenerateNewGrid();
+            GenerateNewBoard();
         }
 
-        private void GenerateNewGrid()
+        private void GenerateNewBoard()
         {
             Board = new Field[X_maxIndex + 1, Y_maxIndex + 1];
             Random r = new Random();

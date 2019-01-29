@@ -40,6 +40,12 @@ namespace Sapper
                 Y = y;
             }
         }
+        public static class SquareStyle
+        {
+            public static Style UnrevealedField;
+            public static Style MineField;
+            public static Style EmptyField;
+        }
 
         public MainWindow()
         {
@@ -47,6 +53,9 @@ namespace Sapper
             InitializeVariables();
             Game = new SapperInstance(GridHeight, GridLength);
             DrawBoard();
+            SquareStyle.UnrevealedField = Resources["UnrevealedField"] as Style;
+            SquareStyle.EmptyField = Resources["EmptyField"] as Style;
+            SquareStyle.MineField = Resources["MineField"] as Style;
         }
 
         private void InitializeVariables()
@@ -67,7 +76,7 @@ namespace Sapper
                 for (int j = 0; j < GridLength; j++)
                 {
                     var square = new Button();
-                    square.Style = Resources["UnrevealedField"] as Style;
+                    square.Style = SquareStyle.UnrevealedField;
                     square.Tag = new SquarePosition(i, j);
                     Board.Children.Add(square);
                     Grid.SetRow(square, i);
@@ -97,13 +106,13 @@ namespace Sapper
                     switch (Game.Board[position.X, position.Y].Value)
                     {
                         case SapperInstance.Minefield:
-                            square.Style = Resources["MineField"] as Style;
+                            square.Style = SquareStyle.MineField;
                             break;
                         case SapperInstance.EmptyField:
-                            square.Style = Resources["EmptyField"] as Style;
+                            square.Style = SquareStyle.EmptyField;
                             break;
                         default:
-                            square.Style = Resources["EmptyField"] as Style;
+                            square.Style = SquareStyle.EmptyField;
                             square.Content = Game.Board[position.X, position.Y].Value;
                             break;
                     }
@@ -114,6 +123,16 @@ namespace Sapper
         private void Unrevealed_RightClick(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("prawy");
+
+        }
+        
+        private void Marked_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Marked_RightClick(object sender, MouseButtonEventArgs e)
+        {
 
         }
     }
